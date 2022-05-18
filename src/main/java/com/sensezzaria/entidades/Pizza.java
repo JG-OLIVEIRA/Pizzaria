@@ -1,40 +1,30 @@
 package com.sensezzaria.entidades;
 
-public class Pizza {
+import com.sensezzaria.interfaces.Alimento;
+
+public class Pizza implements Alimento {
      private Long id;
      private String sabor;
      private Integer tamanho;
      private Float valor;
 
-     public Long getId() {
-          return id;
-     }
-
+     @Override
      public void setId(Long id) {
           this.id = id;
      }
 
-     public String getSabor() {
-          return sabor;
+     @Override
+     public Long getId() {
+          return this.id;
      }
 
-     public void setSabor(String sabor) {
-          this.sabor = sabor;
-     }
-
-     public Integer getTamanho() {
-          return tamanho;
-     }
-
-     public void setTamanho(Integer tamanho) {
-          this.tamanho = tamanho;
-     }
-
-     public Float getValor() {
-          return valor;
-     }
-
+     @Override
      public void setValor(Float valor) {
           this.valor = valor;
+     }
+
+     @Override
+     public Float getValor() {
+          return this.valor;
      }
 }

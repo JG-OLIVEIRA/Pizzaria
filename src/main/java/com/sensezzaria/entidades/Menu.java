@@ -5,6 +5,9 @@ import java.util.Scanner;
 public class Menu {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
+        Pizza pizza = new Pizza();
+        Bebida bebida = new Bebida();
+        Sobremesa sobremesa = new Sobremesa();
         System.out.println("");
         System.out.println("Bem vindo ao menu principal!");
         System.out.println("");
@@ -27,6 +30,10 @@ public class Menu {
         System.out.println("9      Quatro Queijos       83,00        ");
         System.out.println("10     Quatro Queijos               50,00");
         System.out.println("");
+        System.out.println("Digite o id da pizza que você deseja:");
+        System.out.println("");
+        pizza.setId(scanner.nextLong());
+        System.out.println("");
         System.out.println("Bebidas:");
         System.out.println("");
         System.out.println("Id      Nome               Valor        Medida");
@@ -37,11 +44,20 @@ public class Menu {
         System.out.println("4       Guaraná            6,50         1L");
         System.out.println("5       Skol-Beats         4,50         350ml");
         System.out.println("");
+        System.out.println("Digite o id da bebida que você deseja:");
+        System.out.println("");
+        pizza.setId(scanner.nextLong());
+        System.out.println("");
         System.out.println("Sobremesa:");
         System.out.println("");
         System.out.println("Id      Nome               Valor");
         System.out.println("");
         System.out.println("1       Bolo               3,50");
         System.out.println("2       Pudim              2,50");
+        System.out.println("");
+        System.out.println("Digite o id da sobremesa que você deseja:");
+        System.out.println("");
+        pizza.setId(scanner.nextLong());
+        System.out.println("");
     }
 }

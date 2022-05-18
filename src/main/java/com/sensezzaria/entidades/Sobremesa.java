@@ -1,31 +1,29 @@
 package com.sensezzaria.entidades;
 
-public class Sobremesa {
+import com.sensezzaria.interfaces.Alimento;
+
+public class Sobremesa implements Alimento {
     private Long id;
     private String nome;
     private Float valor;
 
-    public Long getId() {
-        return id;
-    }
-
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    @Override
+    public Long getId() {
+        return this.id;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Float getValor() {
-        return valor;
-    }
-
+    @Override
     public void setValor(Float valor) {
         this.valor = valor;
+    }
+
+    @Override
+    public Float getValor() {
+        return this.valor;
     }
 }
