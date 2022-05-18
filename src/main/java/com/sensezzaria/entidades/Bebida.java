@@ -1,18 +1,8 @@
 package com.sensezzaria.entidades;
 
-public class Bebida {
-    private Long id;
+public class Bebida extends Alimento{
     private String nome;
     private Float medida;
-    private Float valor;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -30,11 +20,4 @@ public class Bebida {
         this.medida = medida;
     }
 
-    public Float getValor() {
-        return valor;
-    }
-
-    public void setValor(Float valor) {
-        this.valor = valor;
-    }
 }
