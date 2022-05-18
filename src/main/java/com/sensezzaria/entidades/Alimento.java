@@ -1,6 +1,6 @@
 package com.sensezzaria.entidades;
 
-public class Alimento {
+public abstract class Alimento {
     private Long id;
     private Float valor;
 
