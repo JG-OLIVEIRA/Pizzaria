@@ -9,9 +9,8 @@ public class Application {
 
         menu.iniciaSistema();
         menu.mostraOpcoesDeCardapio();
-        menu.requisitaPedidos("pizza");
-        menu.requisitaPedidos("bebida");
-        menu.requisitaPedidos("sobremesa");
+        menu.requisitaPedidos();
+        menu.mostraItensDoPedidos();
         menu.fechaConta();
     }
 }
