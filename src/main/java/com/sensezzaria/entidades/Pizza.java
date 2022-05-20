@@ -29,6 +29,6 @@ public class Pizza extends Alimento{
 
      @Override
      public String toString() {
-          return "[" + "Id: " + getId() + ", sabor: " + sabor + ", tamanho: " + tamanho + ", valor: R$" + getValor() + "]";
+          return "[Pizza: " + "Id: " + getId() + ", sabor: " + getSabor() + ", tamanho: " + getTamanho() + ", valor: R$" + getValor() + "]";
      }
 }

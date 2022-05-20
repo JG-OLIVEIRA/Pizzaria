@@ -9,13 +9,18 @@ import com.sensezzaria.entidades.Pizza;
 import com.sensezzaria.entidades.Sobremesa;
 
 public class Menu {
+
     Cardapio cardapio = new Cardapio();
-    Pedido pedido = new Pedido();
     List<Pizza> listaDePizzas = cardapio.getPizzas();
     List<Bebida> listaDeBebidas = cardapio.getBebidas();
     List<Sobremesa> listaDeSobremesas = cardapio.getSobremessas();
 
-    List<Alimento> listaDeAlimentosDoPedido = pedido.getAlimentosDoPedido();
+    public void iniciaSistema(){
+        System.out.println("");
+        System.out.println("Bem-vindo a Sensezzaria!");
+        System.out.println("Faça seu pedido!");
+        System.out.println("");
+    }
 
     public void mostraOpcoesDeCardapio(){
         System.out.println("Pizzas:");
@@ -31,14 +36,7 @@ public class Menu {
         listaDeSobremesas.forEach(sobremesa -> System.out.println(sobremesa.toString()));
     }
 
-    public void iniciaSistema(){
-        System.out.println("");
-        System.out.println("Bem-vindo a Sensezzaria!");
-        System.out.println("Faça seu pedido!");
-        System.out.println("");
-    }
-
-    public void requisitaPedidos(){
+    public void requisitaPedidos(Pedido pedido){
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("");
@@ -88,20 +86,19 @@ public class Menu {
         Integer op2 = scanner.nextInt();
 
         if(op2 == 2){
-            requisitaPedidos();
+            requisitaPedidos(pedido);
         }
     }
 
-    public void fechaConta(){
+    public void fechaConta(Pedido pedido){
         Double valorTotal = pedido.getValorTotal();
         System.out.println("Total a ser pago: R$" + valorTotal);
-        pedido.zeraPedido();
     }
 
-    public void mostraItensDoPedidos(){
+    public void mostraItensDoPedidos(List<Alimento> listaDoPedido){
         System.out.println("");
         System.out.println("Pedidos feitos: ");
-        listaDeAlimentosDoPedido.forEach(alimento -> System.out.println(alimento.toString()));
+        listaDoPedido.forEach(alimento -> System.out.println(alimento.toString()));
         System.out.println("");
     }
 
