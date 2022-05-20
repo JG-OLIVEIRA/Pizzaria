@@ -95,10 +95,26 @@ public class Menu {
     public void fechaConta(){
         Double valorTotal = pedido.getValorTotal();
         System.out.println("Total a ser pago: R$" + valorTotal);
+        pedido.zeraPedido();
     }
 
     public void mostraItensDoPedidos(){
+        System.out.println("");
         System.out.println("Pedidos feitos: ");
         listaDeAlimentosDoPedido.forEach(alimento -> System.out.println(alimento.toString()));
+        System.out.println("");
+    }
+
+    public Integer encerraSistema() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("");
+        System.out.println("1 - Encerra sistema");
+        System.out.println("2 - Voltar ao menu");
+        System.out.println("");
+
+        Integer numero = scanner.nextInt();
+
+        return numero;
     }
 }
