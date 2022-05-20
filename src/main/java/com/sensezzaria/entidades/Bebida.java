@@ -29,7 +29,7 @@ public class Bebida extends Alimento{
 
     @Override
     public String toString() {
-        return "[Bebida: " +  "Id: " + getId() + ", nome: " + nome + ", medida: " + medida + ", valor: R$" + getValor() + "]";
+        return "[Bebida: " +  "Id: " + getId() + ", nome: " + getNome() + ", medida: " + getMedida() + ", valor: R$" + getValor() + "]";
     }
 
 }

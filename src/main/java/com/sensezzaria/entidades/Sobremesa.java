@@ -19,6 +19,6 @@ public class Sobremesa extends Alimento{
 
     @Override
     public String toString() {
-        return "[Sobremesa: " + "Id: " + getId() + ", nome: " + nome + ", valor: R$" + getValor() + "]";
+        return "[Sobremesa: " + "Id: " + getId() + ", nome: " + getNome() + ", valor: R$" + getValor() + "]";
     }
 }

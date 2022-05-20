@@ -27,10 +27,6 @@ public class Pedido {
         return this.alimentos;
     }
 
-    public void zeraPedido(){
-        alimentos =  new ArrayList<>();
-    }
-
     public Double getValorTotal() {
         return this.alimentos.stream().mapToDouble(Alimento::getValor).sum();
     }
