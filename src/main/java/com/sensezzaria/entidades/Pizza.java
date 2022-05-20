@@ -27,4 +27,8 @@ public class Pizza extends Alimento{
           this.tamanho = tamanho;
      }
 
+     @Override
+     public String toString() {
+          return "[" + "Id: " + getId() + ", sabor: " + sabor + ", tamanho: " + tamanho + ", valor: R$" + getValor() + "]";
+     }
 }

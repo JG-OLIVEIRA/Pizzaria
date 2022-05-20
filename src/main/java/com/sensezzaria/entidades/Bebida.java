@@ -27,4 +27,9 @@ public class Bebida extends Alimento{
         this.medida = medida;
     }
 
+    @Override
+    public String toString() {
+        return "[Bebida: " +  "Id: " + getId() + ", nome: " + nome + ", medida: " + medida + ", valor: R$" + getValor() + "]";
+    }
+
 }

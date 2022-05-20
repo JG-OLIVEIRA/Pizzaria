@@ -16,4 +16,9 @@ public class Sobremesa extends Alimento{
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    @Override
+    public String toString() {
+        return "[Sobremesa: " + "Id: " + getId() + ", nome: " + nome + ", valor: R$" + getValor() + "]";
+    }
 }
