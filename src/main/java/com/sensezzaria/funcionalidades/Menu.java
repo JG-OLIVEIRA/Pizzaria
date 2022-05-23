@@ -1,15 +1,18 @@
 package com.sensezzaria.funcionalidades;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import com.sensezzaria.entidades.Alimento;
 import com.sensezzaria.entidades.Bebida;
 import com.sensezzaria.entidades.Pizza;
 import com.sensezzaria.entidades.Sobremesa;
+import com.sensezzaria.enums.OpcoesAlimento;
 
 public class Menu {
-
     Cardapio cardapio = new Cardapio();
     List<Pizza> listaDePizzas = cardapio.getPizzas();
     List<Bebida> listaDeBebidas = cardapio.getBebidas();
@@ -41,41 +44,44 @@ public class Menu {
 
         System.out.println("");
         System.out.println("O que você vai pedir?");
-        System.out.println("1 - Pizza");
-        System.out.println("2 - Bebida");
-        System.out.println("3 - Sobremesa");
+        System.out.println("");
+
+        for(OpcoesAlimento opcoes: OpcoesAlimento.values()) {
+            System.out.println(opcoes.getValor() + " - " + opcoes.toString());
+        }
+
         System.out.println("Resposta: ");
 
-        Integer op = scanner.nextInt();
+        Integer opcaoInput = scanner.nextInt();
 
-        if(op == 1) {
-            System.out.println("");
-            System.out.println("Agora digite o id da pizza que deseja: ");
+        switch (opcaoInput) {
+            case 1:
+                System.out.println("");
+                System.out.println("Agora digite o id da pizza que deseja: ");
 
-            Integer pizzaId = scanner.nextInt();
+                Integer pizzaId = scanner.nextInt();
 
-            Pizza pizza = listaDePizzas.get(pizzaId - 1);
-            pedido.adicionaPizza(pizza);
-        }
+                Pizza pizza = listaDePizzas.get(pizzaId - 1);
+                pedido.adicionaPizza(pizza);
+                break;
+            case 2:
+                System.out.println("");
+                System.out.println("Agora digite o id da bebida que deseja: ");
 
-        if(op == 2){
-            System.out.println("");
-            System.out.println("Agora digite o id da bebida que deseja: ");
+                Integer bebidaId = scanner.nextInt();
 
-            Integer bebidaId = scanner.nextInt();
+                Bebida bebida = listaDeBebidas.get(bebidaId - 1);
+                pedido.adicionaBebida(bebida);
+                break;
+            case 3:
+                System.out.println("");
+                System.out.println("Agora digite o id da sobremesa que deseja: ");
 
-            Bebida bebida = listaDeBebidas.get(bebidaId - 1);
-            pedido.adicionaBebida(bebida);
-        }
+                Integer sobremesaId = scanner.nextInt();
 
-        if(op == 3){
-            System.out.println("");
-            System.out.println("Agora digite o id da sobremesa que deseja: ");
-
-            Integer sobremesaId = scanner.nextInt();
-
-            Sobremesa sobremesa = listaDeSobremesas.get(sobremesaId - 1);
-            pedido.adicionaSobremesa(sobremesa);
+                Sobremesa sobremesa = listaDeSobremesas.get(sobremesaId - 1);
+                pedido.adicionaSobremesa(sobremesa);
+                break;
         }
 
         System.out.println("");
@@ -88,6 +94,7 @@ public class Menu {
         if(op2 == 2){
             requisitaPedidos(pedido);
         }
+
     }
 
     public void fechaConta(Pedido pedido){
