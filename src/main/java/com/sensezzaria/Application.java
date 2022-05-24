@@ -13,11 +13,11 @@ public class Application {
 
         while(true){
             Pedido pedido = new Pedido();
-            List<Alimento> listaDoPedido = pedido.getAlimentosDoPedido();
+            List<Alimento> listaAlimentos = pedido.getAlimentos();
             menu.iniciaSistema();
             menu.mostraOpcoesDeCardapio();
             menu.requisitaPedidos(pedido);
-            menu.mostraItensDoPedidos(listaDoPedido);
+            menu.mostraItensDoPedidos(listaAlimentos);
             menu.fechaConta(pedido);
             Integer op = menu.encerraSistema();
 
