@@ -1,8 +1,6 @@
 package com.sensezzaria.enums;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public enum OpcoesAlimento {
     PIZZA(1), BEBIDA(2), SOBREMESA(3);
