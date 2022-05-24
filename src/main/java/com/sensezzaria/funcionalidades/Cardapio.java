@@ -1,9 +1,7 @@
 package com.sensezzaria.funcionalidades;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.sensezzaria.entidades.Alimento;
 import com.sensezzaria.entidades.Bebida;
 import com.sensezzaria.entidades.Pizza;
 import com.sensezzaria.entidades.Sobremesa;
