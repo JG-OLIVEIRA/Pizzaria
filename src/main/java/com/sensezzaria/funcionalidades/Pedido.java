@@ -12,6 +12,10 @@ public class Pedido {
         alimentos.add(alimento);
     }
 
+    public void removeAlimento(Integer index) {
+        alimentos.remove(alimentos.get(index));
+    }
+
     public List<Alimento> getAlimentos() {
         return this.alimentos;
     }

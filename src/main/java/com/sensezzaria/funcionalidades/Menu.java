@@ -61,18 +61,17 @@ public class Menu {
     public void requisitaPedidos(Pedido pedido){
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("");
-        System.out.println("O que você vai pedir?");
-        System.out.println("");
-
         int i = 1;
-
+        System.out.println("");
         for(OpcoesAlimento opcoes: OpcoesAlimento.values()) {
             System.out.println(i + " - " + opcoes.toString());
             i++;
         }
 
-        System.out.println("Resposta: ");
+        System.out.println("");
+        System.out.println("O que você vai pedir?");
+        System.out.println("");
+
 
         Integer opcaoInput = scanner.nextInt();
 
@@ -109,8 +108,9 @@ public class Menu {
         }
 
         System.out.println("");
-        System.out.println("1 - Fechar conta");
-        System.out.println("2 - Continuar pedindo");
+        System.out.println("1 - Fechar conta.");
+        System.out.println("2 - Continuar pedido.");
+        System.out.println("3 - Editar pedido.");
         System.out.println("");
 
         Integer op2 = scanner.nextInt();
@@ -119,6 +119,32 @@ public class Menu {
             requisitaPedidos(pedido);
         }
 
+        if(op2 == 3){
+            editaPedido(pedido);
+        }
+    }
+
+    public void editaPedido(Pedido pedido){
+        System.out.println("");
+        System.out.println("Pedidos feitos: ");
+        pedido.getAlimentos().forEach(alimento -> System.out.println(alimento.toString()));
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("1 - Remover item do pedido.");
+        System.out.println("2 - Adicionar mais um item.");
+
+        Integer op1 = scanner.nextInt();
+
+        if(op1 == 1){
+            System.out.println("Numero do item na lista do pedido: ");
+            Integer index = scanner.nextInt();
+            pedido.removeAlimento(index - 1);
+        }
+
+        if(op1 == 2){
+            requisitaPedidos(pedido);
+        }
     }
 
     public void fechaConta(Pedido pedido){
