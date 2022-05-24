@@ -11,19 +11,11 @@ import com.sensezzaria.entidades.Sobremesa;
 public class Pedido {
     private List<Alimento> alimentos =  new ArrayList<>();
 
-    public void adicionaPizza(Pizza pizza){
-        alimentos.add(pizza);
+    public void adicionaAlimento(Alimento alimento){
+        alimentos.add(alimento);
     }
 
-    public void adicionaBebida(Bebida bebida){
-        alimentos.add(bebida);
-    }
-
-    public void adicionaSobremesa(Sobremesa sobremesa){
-        alimentos.add(sobremesa);
-    }
-
-    public List<Alimento> getAlimentosDoPedido() {
+    public List<Alimento> getAlimentos() {
         return this.alimentos;
     }
 
