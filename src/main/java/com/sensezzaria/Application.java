@@ -8,7 +8,7 @@ import com.sensezzaria.funcionalidades.Pedido;
 
 public class Application {
 
-    public static void main(String[] args){
+    public static void main(String[] args)  {
         Menu menu = new Menu();
 
         while(true){
@@ -18,7 +18,6 @@ public class Application {
             menu.mostraOpcoesDeCardapio();
             menu.requisitaPedidos(pedido);
             menu.mostraItensDoPedidos(listaAlimentos);
-            menu.fechaConta(pedido);
             Integer op = menu.encerraSistema();
 
             if(op == 1){
