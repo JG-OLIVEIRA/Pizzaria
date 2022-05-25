@@ -7,6 +7,11 @@ import com.sensezzaria.entidades.Bebida;
 import com.sensezzaria.entidades.Pizza;
 import com.sensezzaria.entidades.Sobremesa;
 import com.sensezzaria.enums.OpcoesAlimento;
+import com.sensezzaria.excecoes.IdInvalido;
+import com.sensezzaria.excecoes.InputInvalido;
+import com.sensezzaria.excecoes.OpcaoInvalida;
+import com.sensezzaria.utils.CheckIntegerInput;
+
 
 public class Menu {
     List<Bebida> bebidas = List.of(
@@ -37,6 +42,8 @@ public class Menu {
 
     Cardapio cardapio = new Cardapio(bebidas, pizzas, sobremesas);
 
+    CheckIntegerInput checkIntegerInput = new CheckIntegerInput();
+
     public void iniciaSistema(){
         System.out.println("");
         System.out.println("Bem-vindo a Sensezzaria!");
@@ -58,7 +65,8 @@ public class Menu {
         sobremesas.forEach(sobremesa -> System.out.println(sobremesa.toString()));
     }
 
-    public void requisitaPedidos(Pedido pedido){
+    public void requisitaPedidos(Pedido pedido) throws InputInvalido {
+
         Scanner scanner = new Scanner(System.in);
 
         int i = 1;
@@ -72,40 +80,90 @@ public class Menu {
         System.out.println("O que você vai pedir?");
         System.out.println("");
 
+        try {
 
-        Integer opcaoInput = scanner.nextInt();
+            String opcaoInput = scanner.next();
 
-        OpcoesAlimento meuEnum = OpcoesAlimento.valueOf(opcaoInput);
+            Integer op1 = checkIntegerInput.verify(opcaoInput);
 
-        switch (meuEnum) {
-            case PIZZA:
-                System.out.println("");
-                System.out.println("Agora digite o id da pizza que deseja: ");
+            OpcoesAlimento meuEnum = OpcoesAlimento.valueOf(op1);
 
-                Integer pizzaId = scanner.nextInt();
+            Boolean existe;
 
-                Pizza pizza = cardapio.getPizzas().get(pizzaId - 1);
-                pedido.adicionaAlimento(pizza);
-                break;
-            case BEBIDA:
-                System.out.println("");
-                System.out.println("Agora digite o id da bebida que deseja: ");
+            switch (meuEnum) {
+                case PIZZA:
+                    pizzas.forEach(pizza -> System.out.println(pizza.toString()));
+                    System.out.println("");
+                    System.out.println("Agora digite o id da pizza que deseja: ");
 
-                Integer bebidaId = scanner.nextInt();
+                    Integer pizzaId = scanner.nextInt();
 
-                Bebida bebida = cardapio.getBebidas().get(bebidaId - 1);
-                pedido.adicionaAlimento(bebida);
-                break;
-            case SOBREMESA:
-                System.out.println("");
-                System.out.println("Agora digite o id da sobremesa que deseja: ");
+                    existe = cardapio
+                            .getPizzas()
+                            .stream()
+                            .map(pizza -> pizza.getId())
+                            .anyMatch(id -> id == Long.valueOf(pizzaId));
 
-                Integer sobremesaId = scanner.nextInt();
+                    if(!existe){
+                        throw new IdInvalido();
+                    }
 
-                Sobremesa sobremesa = cardapio.getSobremesas().get(sobremesaId - 1);
-                pedido.adicionaAlimento(sobremesa);
-                break;
+                    Pizza pizza = cardapio.getPizzas().get(pizzaId - 1);
+                    System.out.println(pizza.toString());
+                    pedido.adicionaAlimento(pizza);
+                    break;
+
+                case BEBIDA:
+                    bebidas.forEach(bebida -> System.out.println(bebida.toString()));
+                    System.out.println("");
+                    System.out.println("Agora digite o id da bebida que deseja: ");
+
+                    Integer bebidaId = scanner.nextInt();
+
+                    existe = cardapio
+                            .getBebidas()
+                            .stream()
+                            .map(bebida -> bebida.getId())
+                            .anyMatch(id -> id == Long.valueOf(bebidaId));
+
+                    if(!existe){
+                        throw new IdInvalido();
+                    }
+
+                    Bebida bebida = cardapio.getBebidas().get(bebidaId - 1);
+                    System.out.println(bebida.toString());
+                    pedido.adicionaAlimento(bebida);
+                    break;
+
+                case SOBREMESA:
+                    sobremesas.forEach(sobremesa -> System.out.println(sobremesa.toString()));
+                    System.out.println("");
+                    System.out.println("Agora digite o id da sobremesa que deseja: ");
+
+                    Integer sobremesaId = scanner.nextInt();
+
+                    existe = cardapio
+                            .getSobremesas()
+                            .stream()
+                            .map(sobremesa -> sobremesa.getId())
+                            .anyMatch(id -> id == Long.valueOf(sobremesaId));
+
+                    if(!existe){
+                        throw new IdInvalido();
+                    }
+
+                    Sobremesa sobremesa = cardapio.getSobremesas().get(sobremesaId - 1);
+                    System.out.println(sobremesa.toString());
+                    pedido.adicionaAlimento(sobremesa);
+                    break;
+            }
+
+        } catch (InputInvalido | IdInvalido | OpcaoInvalida ex){
+            System.out.println(ex.getMessage());
+            requisitaPedidos(pedido);
         }
+
+        mostraItensDoPedidos(pedido.getAlimentos());
 
         System.out.println("");
         System.out.println("1 - Fechar conta.");
@@ -115,16 +173,24 @@ public class Menu {
 
         Integer op2 = scanner.nextInt();
 
-        if(op2 == 2){
-            requisitaPedidos(pedido);
-        }
-
-        if(op2 == 3){
-            editaPedido(pedido);
+        switch (op2){
+            case 1:
+                fechaConta(pedido);
+                break;
+            case 2:
+                requisitaPedidos(pedido);
+                break;
+            case 3:
+                editaPedido(pedido);
+                System.out.println("Digite uma opção válida");
+                requisitaPedidos(pedido);
+                break;
+            default:
+                System.out.println("Opção inválida.");
         }
     }
 
-    public void editaPedido(Pedido pedido){
+    public void editaPedido(Pedido pedido) {
         System.out.println("");
         System.out.println("Pedidos feitos: ");
         pedido.getAlimentos().forEach(alimento -> System.out.println(alimento.toString()));
@@ -136,14 +202,16 @@ public class Menu {
 
         Integer op1 = scanner.nextInt();
 
-        if(op1 == 1){
-            System.out.println("Numero do item na lista do pedido: ");
-            Integer index = scanner.nextInt();
-            pedido.removeAlimento(index - 1);
-        }
-
-        if(op1 == 2){
-            requisitaPedidos(pedido);
+        switch (op1){
+            case 1:
+                System.out.println("Numero do item na lista do pedido: ");
+                Integer index = scanner.nextInt();
+                pedido.removeAlimento(index - 1);
+            case 2:
+                requisitaPedidos(pedido);
+            default:
+                System.out.println("Digite uma opção válida");
+                editaPedido(pedido);
         }
     }
 
@@ -167,7 +235,10 @@ public class Menu {
         System.out.println("2 - Voltar ao menu");
         System.out.println("");
 
-        Integer numero = scanner.nextInt();
+
+        String op = scanner.next();
+
+        Integer numero = checkIntegerInput.verify(op);
 
         return numero;
     }

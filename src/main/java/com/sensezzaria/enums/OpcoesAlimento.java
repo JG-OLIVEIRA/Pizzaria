@@ -1,6 +1,9 @@
 package com.sensezzaria.enums;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
+
+import com.sensezzaria.excecoes.OpcaoInvalida;
 
 public enum OpcoesAlimento {
     PIZZA(1), BEBIDA(2), SOBREMESA(3);
@@ -12,6 +15,10 @@ public enum OpcoesAlimento {
     }
 
     public static OpcoesAlimento valueOf(int value) {
-        return Arrays.stream(values()).filter(val -> val.value == value).findFirst().get();
+        try{
+            return Arrays.stream(values()).filter(val -> val.value == value).findFirst().get();
+        } catch (NoSuchElementException ex){
+            throw new OpcaoInvalida();
+        }
     }
 }
