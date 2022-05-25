@@ -20,9 +20,20 @@ public class Application {
             menu.mostraItensDoPedidos(listaAlimentos);
             Integer op = menu.encerraSistema();
 
+            while(true){
+               if(op == 1 || op == 2){
+                   break;
+               } else{
+                   System.out.println("Opção inválida");
+                   op = menu.encerraSistema();
+               }
+            }
+
             if(op == 1){
                 break;
             }
+
+
         }
 
     }
