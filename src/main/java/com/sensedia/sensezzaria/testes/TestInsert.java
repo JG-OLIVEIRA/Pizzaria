@@ -1,4 +1,4 @@
-package com.sensedia.sensezzaria.funcionalidades;
+package com.sensedia.sensezzaria.testes;
 import com.sensedia.sensezzaria.entidades.Bebida;
 import com.sensedia.sensezzaria.entidades.Pizza;
 import com.sensedia.sensezzaria.entidades.Sobremesa;
@@ -45,7 +45,6 @@ public class TestInsert {
                 new Sobremesa(2L, "Pudim", 3.5F)
         );
 
-/*
         pizzas.forEach(pizza -> {
             try {
                 pizzaRepository.addPizza(pizza);
@@ -53,7 +52,6 @@ public class TestInsert {
                 throw new RuntimeException(e);
             }
         });
-*/
 
         sobremesas.forEach(sobremesa -> {
             try {
@@ -63,14 +61,13 @@ public class TestInsert {
             }
         });
 
-/*
         bebidas.forEach(bebida -> {
             try {
                 bebidaRepository.addBebida(bebida);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-        });*/
+        });
 
     }
 }

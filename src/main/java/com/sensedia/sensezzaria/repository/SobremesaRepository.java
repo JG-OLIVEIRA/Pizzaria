@@ -13,9 +13,9 @@ public class SobremesaRepository {
 
     public List<Sobremesa> getSobremesas() throws SQLException {
 
-        ConnectionFactory conexaoRepository = new ConnectionFactory();
+        ConnectionFactory connectionFactory = new ConnectionFactory();
 
-        Connection connection = conexaoRepository.criaConexao();
+        Connection connection = connectionFactory.criaConexao();
 
         Statement statement = connection.createStatement();
 
@@ -46,9 +46,9 @@ public class SobremesaRepository {
 
     public void addSobremesa(Sobremesa sobremesa) throws  SQLException{
 
-        ConnectionFactory conexaoRepository = new ConnectionFactory();
+        ConnectionFactory connectionFactory = new ConnectionFactory();
 
-        Connection connection = conexaoRepository.criaConexao();
+        Connection connection = connectionFactory.criaConexao();
 
         String query = "INSERT INTO sobremesa (NOME, VALOR) VALUE (?, ?)";
 
@@ -62,4 +62,20 @@ public class SobremesaRepository {
         connection.close();
     }
 
+    public void deleteSobremesaById(Integer id) throws SQLException{
+
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+
+        Connection connection = connectionFactory.criaConexao();
+
+        String query = "DELETE FROM sobremesa WHERE id = ?";
+
+        PreparedStatement myStat = connection.prepareStatement(query);
+
+        myStat.setInt(1, id);
+
+        myStat.execute();
+
+        connection.close();
+    }
 }

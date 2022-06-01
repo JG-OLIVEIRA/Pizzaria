@@ -11,9 +11,9 @@ public class BebidaRepository {
 
     public List<Bebida> getBebidas() throws SQLException {
 
-        ConnectionFactory conexaoRepository = new ConnectionFactory();
+        ConnectionFactory connectionFactory = new ConnectionFactory();
 
-        Connection connection = conexaoRepository.criaConexao();
+        Connection connection = connectionFactory.criaConexao();
 
         Statement statement = connection.createStatement();
 
@@ -47,9 +47,9 @@ public class BebidaRepository {
 
     public void addBebida(Bebida bebida) throws  SQLException{
 
-        ConnectionFactory conexaoRepository = new ConnectionFactory();
+        ConnectionFactory connectionFactory = new ConnectionFactory();
 
-        Connection connection = conexaoRepository.criaConexao();
+        Connection connection = connectionFactory.criaConexao();
 
         String query = "INSERT INTO bebida (NOME, MEDIDA, VALOR) VALUE (?, ?, ?)";
 
@@ -58,6 +58,23 @@ public class BebidaRepository {
         myStat.setString(1, bebida.getNome());
         myStat.setFloat(2, bebida.getMedida());
         myStat.setFloat(3, bebida.getValor());
+
+        myStat.execute();
+
+        connection.close();
+    }
+
+    public void deleteBebidaById(Integer id) throws SQLException{
+
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+
+        Connection connection = connectionFactory.criaConexao();
+
+        String query = "DELETE FROM bebida WHERE id = ?";
+
+        PreparedStatement myStat = connection.prepareStatement(query);
+
+        myStat.setInt(1, id);
 
         myStat.execute();
 
