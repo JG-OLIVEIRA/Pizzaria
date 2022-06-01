@@ -1,9 +1,9 @@
-package com.sensezzaria.funcionalidades;
+package com.sensedia.sensezzaria.funcionalidades;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sensezzaria.entidades.Alimento;
+import com.sensedia.sensezzaria.entidades.Alimento;
 
 public class Pedido {
     private List<Alimento> alimentos =  new ArrayList<>();

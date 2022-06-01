@@ -1,4 +1,4 @@
-package com.sensezzaria.entidades;
+package com.sensedia.sensezzaria.entidades;
 
 public abstract class Alimento {
     private Long id;

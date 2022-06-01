@@ -1,8 +1,10 @@
-package com.sensezzaria.entidades;
+package com.sensedia.sensezzaria.entidades;
 
 public class Pizza extends Alimento{
      private String sabor;
      private Integer tamanho;
+
+     public Pizza(){}
 
      public  Pizza(Long id, String sabor, Integer tamanho, Float valor){
           this.setId(id);
