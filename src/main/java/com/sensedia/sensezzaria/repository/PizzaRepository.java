@@ -1,5 +1,4 @@
 package com.sensedia.sensezzaria.repository;
-import com.sensedia.sensezzaria.entidades.Bebida;
 import com.sensedia.sensezzaria.entidades.Pizza;
 import com.sensedia.sensezzaria.factory.ConnectionFactory;
 
@@ -8,6 +7,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PizzaRepository {
+
+    public Pizza createPizza(String sabor, Integer tamanho, Float valor) throws SQLException{
+
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+
+        Connection connection = connectionFactory.criaConexao();
+
+        String query = "INSERT INTO pizza (SABOR, TAMANHO, VALOR) VALUE (?, ?, ?)";
+
+        PreparedStatement myStat = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+        myStat.setString(1, sabor);
+        myStat.setInt(2, tamanho);
+        myStat.setFloat(3, valor);
+
+        myStat.executeUpdate();
+
+        ResultSet result = myStat.getGeneratedKeys();
+
+        Long id = null;
+        if(result.next()){
+            id = result.getLong(1);
+        }
+
+        return new Pizza(id, sabor, tamanho, valor);
+    }
 
     public List<Pizza> getPizzas() throws SQLException {
 
@@ -44,39 +69,6 @@ public class PizzaRepository {
         return pizzas;
     }
 
-    public void addPizza(Pizza pizza) throws  SQLException{
 
-        ConnectionFactory connectionFactory = new ConnectionFactory();
 
-        Connection connection = connectionFactory.criaConexao();
-
-        String query = "INSERT INTO pizza (SABOR, TAMANHO, VALOR) VALUE (?, ?, ?)";
-
-        PreparedStatement myStat = connection.prepareStatement(query);
-
-        myStat.setString(1, pizza.getSabor());
-        myStat.setFloat(2, pizza.getTamanho());
-        myStat.setFloat(3, pizza.getValor());
-
-        myStat.execute();
-
-        connection.close();
-    }
-
-    public void deletePizzaById(Integer id) throws SQLException{
-
-        ConnectionFactory connectionFactory = new ConnectionFactory();
-
-        Connection connection = connectionFactory.criaConexao();
-
-        String query = "DELETE FROM pizza WHERE id = ?";
-
-        PreparedStatement myStat = connection.prepareStatement(query);
-
-        myStat.setInt(1, id);
-
-        myStat.execute();
-
-        connection.close();
-    }
 }

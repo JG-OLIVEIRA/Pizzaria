@@ -1,21 +1,23 @@
 package com.sensedia.sensezzaria.funcionalidades;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
-import com.sensedia.sensezzaria.entidades.Alimento;
-import com.sensedia.sensezzaria.entidades.Bebida;
-import com.sensedia.sensezzaria.entidades.Pizza;
-import com.sensedia.sensezzaria.entidades.Sobremesa;
+import com.sensedia.sensezzaria.entidades.*;
 import com.sensedia.sensezzaria.enums.OpcoesAlimento;
 import com.sensedia.sensezzaria.excecoes.IdInvalido;
 import com.sensedia.sensezzaria.excecoes.InputInvalido;
 import com.sensedia.sensezzaria.excecoes.OpcaoInvalida;
+import com.sensedia.sensezzaria.services.AlimentoPedidoService;
 import com.sensedia.sensezzaria.utils.CheckIntegerInput;
 
 
 public class Menu {
     Cardapio cardapio = new Cardapio();
+
+    AlimentoPedidoService alimentoPedidoService = new AlimentoPedidoService();
 
     CheckIntegerInput checkIntegerInput = new CheckIntegerInput();
 
@@ -45,7 +47,7 @@ public class Menu {
 
     }
 
-    public void requisitaPedidos(Pedido pedido) throws InputInvalido {
+    public void requisitaPedidos(Pedido pedido) throws InputInvalido, SQLException {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -88,9 +90,14 @@ public class Menu {
                         throw new IdInvalido();
                     }
 
-                    Pizza pizza = cardapio.getPizzas().get(pizzaId - 1);
-                    System.out.println(pizza.toString());
-                    pedido.adicionaAlimento(pizza);
+                    Optional<Pizza> pizza = cardapio
+                                    .getPizzas()
+                                    .stream()
+                                    .filter(p -> p.getId() == Long.valueOf(pizzaId))
+                                    .findFirst();
+
+                    System.out.println(pizza.get());
+                    pedido.adicionaAlimento(pizza.get());
                     break;
 
                 case BEBIDA:
@@ -110,9 +117,14 @@ public class Menu {
                         throw new IdInvalido();
                     }
 
-                    Bebida bebida = cardapio.getBebidas().get(bebidaId - 1);
-                    System.out.println(bebida.toString());
-                    pedido.adicionaAlimento(bebida);
+                    Optional<Bebida> bebida =  cardapio
+                            .getBebidas()
+                            .stream()
+                            .filter(b -> b.getId() == Long.valueOf(bebidaId))
+                            .findFirst();
+
+                    System.out.println(bebida.get());
+                    pedido.adicionaAlimento(bebida.get());
                     break;
 
                 case SOBREMESA:
@@ -132,9 +144,14 @@ public class Menu {
                         throw new IdInvalido();
                     }
 
-                    Sobremesa sobremesa = cardapio.getSobremesas().get(sobremesaId - 1);
-                    System.out.println(sobremesa.toString());
-                    pedido.adicionaAlimento(sobremesa);
+                    Optional<Sobremesa> sobremesa = cardapio
+                            .getSobremesas()
+                            .stream()
+                            .filter(s -> s.getId() == Long.valueOf(sobremesaId))
+                            .findFirst();
+
+                    System.out.println(sobremesa.get());
+                    pedido.adicionaAlimento(sobremesa.get());
                     break;
             }
 
@@ -170,7 +187,7 @@ public class Menu {
         }
     }
 
-    public void editaPedido(Pedido pedido) {
+    public void editaPedido(Pedido pedido) throws SQLException {
         System.out.println("");
         System.out.println("Pedidos feitos: ");
         pedido.getAlimentos().forEach(alimento -> System.out.println(alimento.toString()));
@@ -196,6 +213,7 @@ public class Menu {
     }
 
     public void fechaConta(Pedido pedido){
+        alimentoPedidoService.addItensAoPedido(pedido);
         Double valorTotal = pedido.getValorTotal();
         System.out.println("Total a ser pago: R$" + valorTotal);
     }

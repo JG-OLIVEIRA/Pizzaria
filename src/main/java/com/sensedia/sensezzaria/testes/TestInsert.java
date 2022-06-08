@@ -47,7 +47,7 @@ public class TestInsert {
 
         pizzas.forEach(pizza -> {
             try {
-                pizzaRepository.addPizza(pizza);
+                pizzaRepository.createPizza(pizza.getSabor(), pizza.getTamanho(), pizza.getValor());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -55,7 +55,7 @@ public class TestInsert {
 
         sobremesas.forEach(sobremesa -> {
             try {
-                sobremesaRepository.addSobremesa(sobremesa);
+                sobremesaRepository.createSobremesa(sobremesa.getNome(), sobremesa.getValor());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -63,7 +63,7 @@ public class TestInsert {
 
         bebidas.forEach(bebida -> {
             try {
-                bebidaRepository.addBebida(bebida);
+                bebidaRepository.createBebida(bebida.getNome(), bebida.getMedida(), bebida.getValor());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

@@ -1,7 +1,5 @@
 package com.sensedia.sensezzaria.repository;
 
-import com.sensedia.sensezzaria.entidades.Bebida;
-import com.sensedia.sensezzaria.entidades.Pizza;
 import com.sensedia.sensezzaria.entidades.Sobremesa;
 import com.sensedia.sensezzaria.factory.ConnectionFactory;
 
@@ -10,6 +8,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SobremesaRepository {
+
+    public Sobremesa createSobremesa(String nome, Float valor) throws  SQLException{
+
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+
+        Connection connection = connectionFactory.criaConexao();
+
+        String query = "INSERT INTO sobremesa (NOME, VALOR) VALUE (?, ?)";
+
+        PreparedStatement myStat = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+        myStat.setString(1, nome);
+        myStat.setFloat(2, valor);
+
+        myStat.execute();
+
+        ResultSet result = myStat.getGeneratedKeys();
+
+        Long id = null;
+        if(result.next()){
+            id = result.getLong(1);
+        }
+
+        connection.close();
+
+        return new Sobremesa(id, nome, valor);
+    }
 
     public List<Sobremesa> getSobremesas() throws SQLException {
 
@@ -44,38 +69,4 @@ public class SobremesaRepository {
         return sobremesas;
     }
 
-    public void addSobremesa(Sobremesa sobremesa) throws  SQLException{
-
-        ConnectionFactory connectionFactory = new ConnectionFactory();
-
-        Connection connection = connectionFactory.criaConexao();
-
-        String query = "INSERT INTO sobremesa (NOME, VALOR) VALUE (?, ?)";
-
-        PreparedStatement myStat = connection.prepareStatement(query);
-
-        myStat.setString(1, sobremesa.getNome());
-        myStat.setFloat(2, sobremesa.getValor());
-
-        myStat.execute();
-
-        connection.close();
-    }
-
-    public void deleteSobremesaById(Integer id) throws SQLException{
-
-        ConnectionFactory connectionFactory = new ConnectionFactory();
-
-        Connection connection = connectionFactory.criaConexao();
-
-        String query = "DELETE FROM sobremesa WHERE id = ?";
-
-        PreparedStatement myStat = connection.prepareStatement(query);
-
-        myStat.setInt(1, id);
-
-        myStat.execute();
-
-        connection.close();
-    }
 }

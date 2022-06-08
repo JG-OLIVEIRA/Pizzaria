@@ -9,6 +9,34 @@ import java.util.List;
 
 public class BebidaRepository {
 
+    public Bebida createBebida(String nome, Float medida, Float valor) throws  SQLException{
+
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+
+        Connection connection = connectionFactory.criaConexao();
+
+        String query = "INSERT INTO bebida (NOME, MEDIDA, VALOR) VALUE (?, ?, ?)";
+
+        PreparedStatement myStat = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+        myStat.setString(1, nome);
+        myStat.setFloat(2, medida);
+        myStat.setFloat(3,valor);
+
+        myStat.execute();
+
+        ResultSet result = myStat.getGeneratedKeys();
+
+        Long id = null;
+        if(result.next()){
+            id = result.getLong(1);
+        }
+
+        connection.close();
+
+        return new Bebida(id, nome, medida, valor );
+    }
+
     public List<Bebida> getBebidas() throws SQLException {
 
         ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -45,39 +73,6 @@ public class BebidaRepository {
         return bebidas;
     }
 
-    public void addBebida(Bebida bebida) throws  SQLException{
 
-        ConnectionFactory connectionFactory = new ConnectionFactory();
 
-        Connection connection = connectionFactory.criaConexao();
-
-        String query = "INSERT INTO bebida (NOME, MEDIDA, VALOR) VALUE (?, ?, ?)";
-
-        PreparedStatement myStat = connection.prepareStatement(query);
-
-        myStat.setString(1, bebida.getNome());
-        myStat.setFloat(2, bebida.getMedida());
-        myStat.setFloat(3, bebida.getValor());
-
-        myStat.execute();
-
-        connection.close();
-    }
-
-    public void deleteBebidaById(Integer id) throws SQLException{
-
-        ConnectionFactory connectionFactory = new ConnectionFactory();
-
-        Connection connection = connectionFactory.criaConexao();
-
-        String query = "DELETE FROM bebida WHERE id = ?";
-
-        PreparedStatement myStat = connection.prepareStatement(query);
-
-        myStat.setInt(1, id);
-
-        myStat.execute();
-
-        connection.close();
-    }
 }

@@ -8,6 +8,6 @@ public class ConnectionFactory {
 
         public Connection criaConexao() throws SQLException {
             return DriverManager
-                    .getConnection("jdbc:mysql://localhost/sensezzaria?useTimezone=true&serverTimezone=UTC", "root", "root");
+                    .getConnection("jdbc:mysql://localhost/sensezzaria?useTimezone=true&serverTimezone=UTC&characterEncoding=UTF-8", "root", "root");
         }
 }

@@ -1,24 +1,25 @@
 package com.sensedia.sensezzaria;
 
-import com.sensedia.sensezzaria.entidades.Alimento;
+import com.sensedia.sensezzaria.entidades.Pedido;
 import com.sensedia.sensezzaria.funcionalidades.Menu;
-import com.sensedia.sensezzaria.funcionalidades.Pedido;
+import com.sensedia.sensezzaria.services.PedidoService;
 
-import java.util.List;
+import java.sql.SQLException;
 
 public class Application {
-
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws SQLException {
         Menu menu = new Menu();
 
+        PedidoService pedidoService = new PedidoService();
+
         while(true){
-            Pedido pedido = new Pedido();
-            List<Alimento> listaAlimentos = pedido.getAlimentos();
+            Pedido pedido = pedidoService.createPedido();
+
             menu.iniciaSistema();
             menu.mostraOpcoesDeCardapio();
             menu.requisitaPedidos(pedido);
-            menu.mostraItensDoPedidos(listaAlimentos);
+            menu.mostraItensDoPedidos(pedido.getAlimentos());
+
             Integer op = menu.encerraSistema();
 
             while(true){
