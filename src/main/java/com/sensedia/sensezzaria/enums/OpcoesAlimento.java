@@ -1,9 +1,9 @@
-package com.sensezzaria.enums;
+package com.sensedia.sensezzaria.enums;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
-import com.sensezzaria.excecoes.OpcaoInvalida;
+import com.sensedia.sensezzaria.excecoes.OpcaoInvalida;
 
 public enum OpcoesAlimento {
     PIZZA(1), BEBIDA(2), SOBREMESA(3);

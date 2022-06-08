@@ -1,6 +1,6 @@
-package com.sensezzaria.utils;
+package com.sensedia.sensezzaria.utils;
 
-import com.sensezzaria.excecoes.InputInvalido;
+import com.sensedia.sensezzaria.excecoes.InputInvalido;
 
 public class CheckIntegerInput {
     public Integer verify(String numero) {

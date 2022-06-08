@@ -1,4 +1,4 @@
-package com.sensezzaria.excecoes;
+package com.sensedia.sensezzaria.excecoes;
 
 import java.util.InputMismatchException;
 
