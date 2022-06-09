@@ -12,4 +12,8 @@ public class BebidaService {
     public Bebida createBebida(String nome, Float medida, Float valor) throws SQLException {
         return bebidaRepository.createBebida(nome, medida, valor);
     }
+
+    public void deleteBebidaById(Integer id) throws SQLException{
+        bebidaRepository.deleteBebidaById(id);
+    }
 }

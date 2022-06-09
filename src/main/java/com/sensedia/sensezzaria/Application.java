@@ -32,6 +32,9 @@ public class Application {
                 } else if (op == 3) {
                     menu.cadastraProdutos();
                     op = menu.encerraSistema();
+                } else if (op == 5) {
+                    menu.deletaProduto();
+                    op = menu.encerraSistema();
                 } else {
                     System.out.println("Opção inválida");
                     op = menu.encerraSistema();

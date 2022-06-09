@@ -101,6 +101,7 @@ public class Menu {
     }
 
     public void cadastraSobremesa() throws SQLException {
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("");
@@ -118,6 +119,57 @@ public class Menu {
         Sobremesa sobremesa = sobremesaService.createSobremesa(nome, Float.parseFloat(valor));
 
         System.out.println(sobremesa);
+    }
+
+    public void deletaPizzaById() throws SQLException {
+
+        Scanner scanner = new Scanner(System.in);
+
+        cardapio.getPizzas().forEach(pizza -> System.out.println(pizza.toString()));
+
+        System.out.println("");
+        System.out.println("Digite o id da pizza: ");
+        System.out.println("");
+
+        Integer id = scanner.nextInt();
+
+        pizzaService.deletePizzaById(id);
+
+        System.out.println("Pizza com id = " + id + " deletada.");
+    }
+
+    public void deletaBebidaById() throws SQLException {
+
+        Scanner scanner = new Scanner(System.in);
+
+        cardapio.getBebidas().forEach(bebida -> System.out.println(bebida.toString()));
+
+        System.out.println("");
+        System.out.println("Digite o id da bebida: ");
+        System.out.println("");
+
+        Integer id = scanner.nextInt();
+
+        bebidaService.deleteBebidaById(id);
+
+        System.out.println("Bebida com id = " + id + " deletada.");
+    }
+
+    public void deletaSobremesaById() throws SQLException {
+
+        Scanner scanner = new Scanner(System.in);
+
+        cardapio.getSobremesas().forEach(sobremesa -> System.out.println(sobremesa.toString()));
+
+        System.out.println("");
+        System.out.println("Digite o id da sobremesa: ");
+        System.out.println("");
+
+        Integer id = scanner.nextInt();
+
+        sobremesaService.deleteSobremesaById(id);
+
+        System.out.println("Sobremesa com id = " + id + " deletada.");
     }
 
     public void requisitaPedidos(Pedido pedido) throws InputInvalido, SQLException {
@@ -313,6 +365,36 @@ public class Menu {
         Integer numero = checkIntegerInput.verify(op);
 
         return numero;
+    }
+
+    public void deletaProduto() throws SQLException {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("");
+        System.out.println("1 - Pizza");
+        System.out.println("2 - Bebida");
+        System.out.println("3 - Sobremesa");
+        System.out.println("");
+
+        String op1 = scanner.next();
+
+        Integer op = checkIntegerInput.verify(op1);
+
+        switch (op){
+            case 1:
+                deletaPizzaById();
+                break;
+            case 2:
+                deletaBebidaById();
+                break;
+            case 3:
+                deletaSobremesaById();
+                break;
+            default:
+                System.out.println("Opção inválida.");
+        }
+
     }
 
     public void cadastraProdutos() throws SQLException {

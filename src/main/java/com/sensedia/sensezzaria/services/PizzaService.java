@@ -12,4 +12,8 @@ public class PizzaService {
     public Pizza createPizza(String sabor, Integer tamanho, Float valor) throws SQLException {
         return pizzaRepository.createPizza(sabor, tamanho, valor);
     }
+
+    public void deletePizzaById(Integer id) throws SQLException{
+        pizzaRepository.deletePizzaById(id);
+    }
 }

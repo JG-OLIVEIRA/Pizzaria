@@ -34,6 +34,23 @@ public class PizzaRepository {
         return new Pizza(id, sabor, tamanho, valor);
     }
 
+    public void deletePizzaById(Integer id) throws SQLException {
+
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+
+        Connection connection = connectionFactory.criaConexao();
+
+        String query = "DELETE FROM pizza WHERE id = ?";
+
+        PreparedStatement myStat = connection.prepareStatement(query);
+
+        myStat.setDouble(1, id);
+
+        myStat.executeUpdate();
+
+        connection.close();
+    }
+
     public List<Pizza> getPizzas() throws SQLException {
 
         ConnectionFactory connectionFactory = new ConnectionFactory();

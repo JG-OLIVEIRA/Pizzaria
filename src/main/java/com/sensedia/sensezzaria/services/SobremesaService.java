@@ -12,4 +12,8 @@ public class SobremesaService {
     public Sobremesa createSobremesa(String nome, Float valor) throws SQLException {
         return sobremesaRepository.createSobremesa(nome, valor);
     }
+
+    public void deleteSobremesaById(Integer id) throws SQLException{
+        sobremesaRepository.deleteSobremesaById(id);
+    }
 }

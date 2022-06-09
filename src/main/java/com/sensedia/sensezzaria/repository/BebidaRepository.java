@@ -37,6 +37,23 @@ public class BebidaRepository {
         return new Bebida(id, nome, medida, valor );
     }
 
+    public void deleteBebidaById(Integer id) throws SQLException {
+
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+
+        Connection connection = connectionFactory.criaConexao();
+
+        String query = "DELETE FROM bebida WHERE id = ?";
+
+        PreparedStatement myStat = connection.prepareStatement(query);
+
+        myStat.setDouble(1, id);
+
+        myStat.executeUpdate();
+
+        connection.close();
+    }
+
     public List<Bebida> getBebidas() throws SQLException {
 
         ConnectionFactory connectionFactory = new ConnectionFactory();
