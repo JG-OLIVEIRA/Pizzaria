@@ -22,20 +22,21 @@ public class Application {
 
             Integer op = menu.encerraSistema();
 
-            while(true){
-                if(op == 1 || op == 2){
-                    break;
-                } else{
-                    System.out.println("Opção inválida");
-                    op = menu.encerraSistema();
-                }
-            }
-
             if(op == 1){
                 break;
             }
 
-
+            while(true){
+                if (op == 2) {
+                    break;
+                } else if (op == 3) {
+                    menu.cadastraProdutos();
+                    op = menu.encerraSistema();
+                } else {
+                    System.out.println("Opção inválida");
+                    op = menu.encerraSistema();
+                }
+            }
         }
     }
 }

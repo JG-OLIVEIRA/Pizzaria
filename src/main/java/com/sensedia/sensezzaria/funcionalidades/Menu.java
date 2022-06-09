@@ -11,14 +11,19 @@ import com.sensedia.sensezzaria.excecoes.IdInvalido;
 import com.sensedia.sensezzaria.excecoes.InputInvalido;
 import com.sensedia.sensezzaria.excecoes.OpcaoInvalida;
 import com.sensedia.sensezzaria.services.AlimentoPedidoService;
+import com.sensedia.sensezzaria.services.BebidaService;
+import com.sensedia.sensezzaria.services.PizzaService;
+import com.sensedia.sensezzaria.services.SobremesaService;
 import com.sensedia.sensezzaria.utils.CheckIntegerInput;
 
 
 public class Menu {
     Cardapio cardapio = new Cardapio();
-
     AlimentoPedidoService alimentoPedidoService = new AlimentoPedidoService();
 
+    PizzaService pizzaService = new PizzaService();
+    BebidaService bebidaService = new BebidaService();
+    SobremesaService sobremesaService = new SobremesaService();
     CheckIntegerInput checkIntegerInput = new CheckIntegerInput();
 
     public void iniciaSistema(){
@@ -47,6 +52,74 @@ public class Menu {
 
     }
 
+    public void cadastraPizza() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("");
+        System.out.println("Cadastre uma pizza: ");
+        System.out.println("");
+
+        System.out.println("Digite o sabor: ");
+
+        String sabor = scanner.next();
+
+        System.out.println("Digite o tamanho: ");
+
+        Integer tamanho = scanner.nextInt();
+
+        System.out.println("Digite o valor: ");
+
+        String valor = scanner.next();
+
+        Pizza pizza = pizzaService.createPizza(sabor, tamanho, Float.parseFloat(valor));
+
+        System.out.println(pizza);
+    }
+
+    public void cadastraBebida() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("");
+        System.out.println("Cadastre uma bebida: ");
+        System.out.println("");
+
+        System.out.println("Digite o nome: ");
+
+        String nome = scanner.next();
+
+        System.out.println("Digite o medida: ");
+
+        Float medida = scanner.nextFloat();
+
+        System.out.println("Digite o valor: ");
+
+        String valor = scanner.next();
+
+        Bebida bebida = bebidaService.createBebida(nome, medida, Float.parseFloat(valor));
+
+        System.out.println(bebida);
+    }
+
+    public void cadastraSobremesa() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("");
+        System.out.println("Cadastre uma sobremesa: ");
+        System.out.println("");
+
+        System.out.println("Digite o nome: ");
+
+        String nome = scanner.next();
+
+        System.out.println("Digite o valor: ");
+
+        String valor = scanner.next();
+
+        Sobremesa sobremesa = sobremesaService.createSobremesa(nome, Float.parseFloat(valor));
+
+        System.out.println(sobremesa);
+    }
+
     public void requisitaPedidos(Pedido pedido) throws InputInvalido, SQLException {
 
         Scanner scanner = new Scanner(System.in);
@@ -65,9 +138,7 @@ public class Menu {
         try {
 
             String opcaoInput = scanner.next();
-
             Integer op1 = checkIntegerInput.verify(opcaoInput);
-
             OpcoesAlimento meuEnum = OpcoesAlimento.valueOf(op1);
 
             Boolean existe;
@@ -231,6 +302,9 @@ public class Menu {
         System.out.println("");
         System.out.println("1 - Encerra sistema");
         System.out.println("2 - Voltar ao menu");
+        System.out.println("3 - Cadatrar produtos");
+        System.out.println("4 - Editar produtos");
+        System.out.println("5 - Excluir produtos");
         System.out.println("");
 
 
@@ -240,4 +314,34 @@ public class Menu {
 
         return numero;
     }
+
+    public void cadastraProdutos() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("");
+        System.out.println("1 - Pizza");
+        System.out.println("2 - Bebida");
+        System.out.println("3 - Sobremesa");
+        System.out.println("");
+
+        String op1 = scanner.next();
+
+        Integer op = checkIntegerInput.verify(op1);
+
+        switch (op){
+            case 1:
+                cadastraPizza();
+                break;
+            case 2:
+                cadastraBebida();
+                break;
+            case 3:
+                cadastraSobremesa();
+                break;
+            default:
+                System.out.println("Opção inválida.");
+        }
+
+    }
+
 }
