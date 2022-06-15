@@ -3,27 +3,23 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 import com.sensedia.sensezzaria.entidades.*;
 import com.sensedia.sensezzaria.enums.OpcoesAlimento;
 import com.sensedia.sensezzaria.excecoes.IdInvalido;
 import com.sensedia.sensezzaria.excecoes.InputInvalido;
 import com.sensedia.sensezzaria.excecoes.OpcaoInvalida;
-import com.sensedia.sensezzaria.services.AlimentoPedidoService;
-import com.sensedia.sensezzaria.services.BebidaService;
-import com.sensedia.sensezzaria.services.PizzaService;
-import com.sensedia.sensezzaria.services.SobremesaService;
+import com.sensedia.sensezzaria.services.*;
 import com.sensedia.sensezzaria.utils.CheckIntegerInput;
 
 
 public class Menu {
     Cardapio cardapio = new Cardapio();
     AlimentoPedidoService alimentoPedidoService = new AlimentoPedidoService();
-
     PizzaService pizzaService = new PizzaService();
     BebidaService bebidaService = new BebidaService();
     SobremesaService sobremesaService = new SobremesaService();
+    PedidoService pedidoService = new PedidoService();
     CheckIntegerInput checkIntegerInput = new CheckIntegerInput();
 
     public void iniciaSistema(){
@@ -87,7 +83,7 @@ public class Menu {
 
         String nome = scanner.next();
 
-        System.out.println("Digite o medida: ");
+        System.out.println("Digite a medida: ");
 
         Float medida = scanner.nextFloat();
 
@@ -178,6 +174,8 @@ public class Menu {
 
         int i = 1;
         System.out.println("");
+        System.out.println("Opções: ");
+        System.out.println("");
         for(OpcoesAlimento opcoes: OpcoesAlimento.values()) {
             System.out.println(i + " - " + opcoes.toString());
             i++;
@@ -220,7 +218,7 @@ public class Menu {
                                     .findFirst();
 
                     System.out.println(pizza.get());
-                    pedido.adicionaAlimento(pizza.get());
+                    alimentoPedidoService.addItensAoPedido(pedido, pizza.get());
                     break;
 
                 case BEBIDA:
@@ -247,7 +245,7 @@ public class Menu {
                             .findFirst();
 
                     System.out.println(bebida.get());
-                    pedido.adicionaAlimento(bebida.get());
+                    alimentoPedidoService.addItensAoPedido(pedido, bebida.get());
                     break;
 
                 case SOBREMESA:
@@ -274,7 +272,7 @@ public class Menu {
                             .findFirst();
 
                     System.out.println(sobremesa.get());
-                    pedido.adicionaAlimento(sobremesa.get());
+                    alimentoPedidoService.addItensAoPedido(pedido, sobremesa.get());
                     break;
             }
 
@@ -283,8 +281,10 @@ public class Menu {
             requisitaPedidos(pedido);
         }
 
-        mostraItensDoPedidos(pedido.getAlimentos());
+        mostraItensDoPedidos(alimentoPedidoService.getItensDoPedido(pedido));
 
+        System.out.println("");
+        System.out.println("Opções: ");
         System.out.println("");
         System.out.println("1 - Fechar conta.");
         System.out.println("2 - Continuar pedido.");
@@ -313,31 +313,57 @@ public class Menu {
     public void editaPedido(Pedido pedido) throws SQLException {
         System.out.println("");
         System.out.println("Pedidos feitos: ");
-        pedido.getAlimentos().forEach(alimento -> System.out.println(alimento.toString()));
+
+        alimentoPedidoService
+                .getItensDoPedido(pedido)
+                .forEach(alimento -> System.out.println(alimento.toString()));
 
         Scanner scanner = new Scanner(System.in);
 
+
+        System.out.println("");
+        System.out.println("Opções: ");
+        System.out.println("");
         System.out.println("1 - Remover item do pedido.");
         System.out.println("2 - Adicionar mais um item.");
+        System.out.println("3 - Fechar conta.");
 
         Integer op1 = scanner.nextInt();
 
         switch (op1){
             case 1:
-                System.out.println("Numero do item na lista do pedido: ");
-                Integer index = scanner.nextInt();
-                pedido.removeAlimento(index - 1);
+                List<Alimento> alimentos = alimentoPedidoService
+                        .getItensDoPedido(pedido);
+
+                System.out.println("Número do id produto: ");
+
+                Integer id = scanner.nextInt();
+
+                Alimento alimento = alimentos
+                                    .stream()
+                                    .filter(produto -> produto.getId() == Long.valueOf(id))
+                                    .findFirst()
+                                    .get();
+
+                AlimentoPedido alimentoPedido = alimentoPedidoService.getAlimentoPedido(pedido, alimento);
+
+                alimentoPedidoService.deleteAlimentoPedido(alimentoPedido);
+                mostraItensDoPedidos(alimentoPedidoService.getItensDoPedido(pedido));
+                editaPedido(pedido);
             case 2:
                 requisitaPedidos(pedido);
+            case 3:
+                fechaConta(pedido);
             default:
                 System.out.println("Digite uma opção válida");
                 editaPedido(pedido);
         }
     }
 
-    public void fechaConta(Pedido pedido){
-        alimentoPedidoService.addItensAoPedido(pedido);
-        Double valorTotal = pedido.getValorTotal();
+    public void fechaConta(Pedido pedido) throws SQLException {
+        pedido.setTotal(alimentoPedidoService.getItensDoPedido(pedido).stream().mapToDouble(Alimento::getValor).sum());
+        pedidoService.updatePedido(pedido);
+        Double valorTotal = pedido.getTotal();
         System.out.println("Total a ser pago: R$" + valorTotal);
     }
 
@@ -352,13 +378,14 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("");
+        System.out.println("Opções: ");
+        System.out.println("");
         System.out.println("1 - Encerra sistema");
-        System.out.println("2 - Voltar ao menu");
+        System.out.println("2 - Fazer um novo pedido");
         System.out.println("3 - Cadatrar produtos");
         System.out.println("4 - Editar produtos");
         System.out.println("5 - Excluir produtos");
         System.out.println("");
-
 
         String op = scanner.next();
 
@@ -371,6 +398,8 @@ public class Menu {
 
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("");
+        System.out.println("Opções: ");
         System.out.println("");
         System.out.println("1 - Pizza");
         System.out.println("2 - Bebida");
@@ -400,6 +429,8 @@ public class Menu {
     public void cadastraProdutos() throws SQLException {
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("");
+        System.out.println("Opções: ");
         System.out.println("");
         System.out.println("1 - Pizza");
         System.out.println("2 - Bebida");

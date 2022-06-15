@@ -2,6 +2,7 @@ package com.sensedia.sensezzaria;
 
 import com.sensedia.sensezzaria.entidades.Pedido;
 import com.sensedia.sensezzaria.funcionalidades.Menu;
+import com.sensedia.sensezzaria.services.AlimentoPedidoService;
 import com.sensedia.sensezzaria.services.PedidoService;
 
 import java.sql.SQLException;
@@ -12,13 +13,15 @@ public class Application {
 
         PedidoService pedidoService = new PedidoService();
 
+        AlimentoPedidoService alimentoPedidoService = new AlimentoPedidoService();
+
         while(true){
             Pedido pedido = pedidoService.createPedido();
 
             menu.iniciaSistema();
             menu.mostraOpcoesDeCardapio();
             menu.requisitaPedidos(pedido);
-            menu.mostraItensDoPedidos(pedido.getAlimentos());
+            menu.mostraItensDoPedidos(alimentoPedidoService.getItensDoPedido(pedido));
 
             Integer op = menu.encerraSistema();
 

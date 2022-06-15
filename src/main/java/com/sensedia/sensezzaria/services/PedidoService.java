@@ -11,4 +11,8 @@ public class PedidoService  {
     public Pedido createPedido() throws SQLException {
         return pedidoRepository.createPedido();
     }
+
+    public Pedido updatePedido(Pedido pedido) throws SQLException {
+        return pedidoRepository.updatePedido(pedido);
+    }
 }

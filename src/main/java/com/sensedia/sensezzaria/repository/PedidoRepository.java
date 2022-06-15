@@ -33,4 +33,22 @@ public class PedidoRepository {
         return new Pedido(id, (double) 0);
     }
 
+    public Pedido updatePedido(Pedido pedido) throws SQLException {
+
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+
+        Connection connection = connectionFactory.criaConexao();
+
+        String query = "UPDATE pedido SET total = ? WHERE id = ?";
+
+        PreparedStatement myStat = connection.prepareStatement(query);
+
+        myStat.setDouble(1,  pedido.getTotal());
+        myStat.setLong(2, pedido.getId());
+
+        myStat.executeUpdate();
+
+        return pedido;
+    }
+
 }
