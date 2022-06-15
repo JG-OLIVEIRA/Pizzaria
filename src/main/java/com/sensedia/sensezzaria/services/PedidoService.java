@@ -8,7 +8,11 @@ import java.sql.SQLException;
 public class PedidoService  {
     PedidoRepository pedidoRepository = new PedidoRepository();
 
-    public Pedido createPedido() throws SQLException{
+    public Pedido createPedido() throws SQLException {
         return pedidoRepository.createPedido();
+    }
+
+    public Pedido updatePedido(Pedido pedido) throws SQLException {
+        return pedidoRepository.updatePedido(pedido);
     }
 }

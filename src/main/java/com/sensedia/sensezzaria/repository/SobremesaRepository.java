@@ -36,6 +36,23 @@ public class SobremesaRepository {
         return new Sobremesa(id, nome, valor);
     }
 
+    public void deleteSobremesaById(Integer id) throws SQLException{
+
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+
+        Connection connection = connectionFactory.criaConexao();
+
+        String query = "SELECT FROM sobremesa WHERE id = ?";
+
+        PreparedStatement myStat = connection.prepareStatement(query);
+
+        myStat.setDouble(1, id);
+
+        myStat.executeUpdate();
+
+        connection.close();
+    }
+
     public List<Sobremesa> getSobremesas() throws SQLException {
 
         ConnectionFactory connectionFactory = new ConnectionFactory();

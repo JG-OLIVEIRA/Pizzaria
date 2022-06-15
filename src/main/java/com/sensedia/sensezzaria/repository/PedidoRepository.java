@@ -33,25 +33,22 @@ public class PedidoRepository {
         return new Pedido(id, (double) 0);
     }
 
-    public Pedido getPedidoById(Long id) throws SQLException{
+    public Pedido updatePedido(Pedido pedido) throws SQLException {
 
         ConnectionFactory connectionFactory = new ConnectionFactory();
 
         Connection connection = connectionFactory.criaConexao();
 
-        String query = "SELECT FROM pedido WHERE id = ?";
+        String query = "UPDATE pedido SET total = ? WHERE id = ?";
 
         PreparedStatement myStat = connection.prepareStatement(query);
 
-        myStat.setDouble(1, id);
+        myStat.setDouble(1,  pedido.getTotal());
+        myStat.setLong(2, pedido.getId());
 
-        myStat.execute();
+        myStat.executeUpdate();
 
-        ResultSet result = myStat.getResultSet();
-
-        connection.close();
-
-        return new Pedido(result.getLong("id"), result.getDouble("total"));
+        return pedido;
     }
 
 }
